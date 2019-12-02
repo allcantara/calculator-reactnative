@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "calculator",
+    "name": "Calculator iPhone for Android",
     "slug": "calculator-reactnative",
     "privacy": "public",
     "sdkVersion": "35.0.0",
@@ -23,8 +23,12 @@
     "assetBundlePatterns": [
       "**/*"
     ],
+    "android": {
+      "package": "com.allcantara.calculator"
+    },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.allcantara.calculator"
     }
   }
 }

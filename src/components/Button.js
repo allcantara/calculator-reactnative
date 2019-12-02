@@ -12,7 +12,7 @@ export default props => {
   stylesButtons.push(styles.button);
 
   if(props.double) stylesButtons.push(styles.buttonDouble);
-  if(props.triple) stylesButtons.push(styles.buttonTriple);
+  if(props.top) stylesButtons.push(styles.buttonTop);
   if(props.operation) stylesButtons.push(styles.operationButton);
 
   return (
@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#555',
     textAlign: 'center',
     borderWidth: 5,
-    borderColor: '#212121',
+    borderColor: '#121212',
     color: '#fff',
  },
 
@@ -47,8 +47,8 @@ const styles = StyleSheet.create({
    width: (Dimensions.get('window').width / 4) * 2,
  },
  
- buttonTriple: {
-    width: (Dimensions.get('window').width / 4) * 3,
+ buttonTop: {
+    backgroundColor: '#777',
  }
 
 })
