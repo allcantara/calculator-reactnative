@@ -9,7 +9,10 @@ const initialState = {
   clearDisplay: false,
   operation: null,
   values: [0, 0],
-  current: 0
+  current: 0,
+  percent: '',
+  mult: '',
+  div: ''
 }
 
 export default class App extends Component {
@@ -20,13 +23,12 @@ export default class App extends Component {
     const clearDisplay = this.state.displayValue === '0' || this.state.clearDisplay;
 
     if(number === '.' && !clearDisplay && this.state.displayValue.includes('.')) return;
-
     const currentValue = clearDisplay ? '' : this.state.displayValue;
     const displayValue = currentValue + number;
     this.setState({ displayValue, clearDisplay: false });
 
     if(number !== '.') {
-      const newValue = parseFloat(displayValue);
+      let newValue = parseFloat(displayValue);
       const values = [...this.state.values];
       values[this.state.current] = newValue;
       this.setState({ values });
@@ -39,7 +41,9 @@ export default class App extends Component {
 
   setOperation = operation => {
     if(operation === 'x') operation = '*';
-
+    if(operation === '%') this.setState({ percent: operation });
+    if(operation === '*') this.setState({ mult: operation });
+    if(operation === '/') this.setState({ div: operation })
     if(operation === '+/-') {
       let value = this.state.values;
       value[0] = value[0] * -1;
@@ -50,9 +54,16 @@ export default class App extends Component {
       this.setState({ operation, current: 1, clearDisplay: true })
     } else {
       const equals = operation === '=';
+      const percent = operation === '%';
       const values = [...this.state.values];
       try{
-        values[0] = eval(`${values[0]} ${this.state.operation} ${values[1]}`)
+        if(!percent) {
+          values[0] = eval(`${values[0]} ${this.state.operation} ${values[1]}`);
+        } else if(!this.state.div && !this.state.mult) {
+          values[0] = eval(`${values[0]} ${this.state.operation} ${values[0] * (values[1] / 100)}`);
+        } else if(this.state.mult || this.state.div) {
+          values[0] = eval(`${values[0]} ${this.state.operation} ${values[1] / 100}`);
+        }
       } catch (e) {
         values[0] = this.state.values[0];
       }
@@ -63,8 +74,23 @@ export default class App extends Component {
         operation: equals ? null : operation,
         current: equals ? 0 : 1,
         clearDisplay: true,
-        values,
+        values: values,
+        div: '',
+        mult: ''
       })
+
+      if(percent) {
+        this.setState({
+          displayValue: `${values[0]}`,
+          operation: null,
+          current: 0,
+          clearDisplay: true,
+          values: values,
+          percent: '',
+          div: '',
+          mult: ''
+        });
+      }
     }
   }
 

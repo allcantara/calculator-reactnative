@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "Calculator iPhone for Android",
+    "name": "Calculadora",
     "slug": "calculator-reactnative",
     "privacy": "public",
     "sdkVersion": "35.0.0",
@@ -9,7 +9,7 @@
       "android",
       "web"
     ],
-    "version": "1.0.0",
+    "version": "1.0.3",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
