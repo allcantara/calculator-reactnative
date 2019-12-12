@@ -40,14 +40,19 @@ export default class App extends Component {
   }
 
   setOperation = operation => {
+    if(!this.state.values[0] && operation) return;
     if(operation === 'x') operation = '*';
     if(operation === '%') this.setState({ percent: operation });
     if(operation === '*') this.setState({ mult: operation });
     if(operation === '/') this.setState({ div: operation })
     if(operation === '+/-') {
-      let value = this.state.values;
-      value[0] = value[0] * -1;
-      this.setState({ displayValue: `${value[0]}`, values: value });
+      if(this.state.values[0] !== 0 || this.state.values[1] !== 0) {
+        let value = this.state.values;
+        value[0] = value[0] * -1;
+        this.setState({ displayValue: `${value[0]}`, values: value });
+      } else {
+        this.clearMemory();
+      }
     }
 
     if(this.state.current === 0) {
@@ -99,7 +104,7 @@ export default class App extends Component {
       <SafeAreaView style={styles.container}>
         <Display value={this.state.displayValue} />
         <View style={styles.buttons}>
-          <Button label="AC" top onClick={this.clearMemory} />
+          <Button label="AC" title="AC" top onClick={this.clearMemory} />
           <Button label="+/-" top onClick={this.setOperation} />
           <Button label="%" top onClick={this.setOperation} />
           <Button label="/" operation onClick={this.setOperation} />
@@ -128,7 +133,7 @@ const styles = StyleSheet.create({
 
   container: {
     flex: 1,
-    backgroundColor: '#121212',
+    backgroundColor: '#000',
     paddingTop: Platform.OS === 'android' ? 25 : 0,
     paddingBottom: 0,
   },
